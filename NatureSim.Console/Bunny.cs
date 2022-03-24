@@ -5,11 +5,11 @@ namespace NatureSim.Console
     class Bunny
     {
         private int _health = 3;
-        private readonly string[] _diet = { "berry", "carrot" };
+        private readonly string[] _diet = { "berry", "carrot", "grass", "cabage", "acorn", "almond" };
         public Bunny()
         {
         }
-        private bool IsAlive => _health > 0;
+        public bool IsAlive => _health > 0;
         public void Eat(string foodName)
         {
             if (IsAlive)
@@ -23,13 +23,22 @@ namespace NatureSim.Console
                 else
                 {
                     _health--;
-                    System.Console.WriteLine($"Bunny does not eat {foodName} and is left with {_health} health");
+                    if (!IsAlive)
+                    {
+                        System.Console.BackgroundColor = System.ConsoleColor.DarkRed;
+                        System.Console.Write($"Bunny does not eat {foodName} and died");
+                        System.Console.BackgroundColor = System.ConsoleColor.Black;
+                        System.Console.WriteLine(" ");
+                    }
+                    else
+                        System.Console.WriteLine($"Bunny does not eat {foodName} and is left with {_health} health");
                 }
+
             }
-            else
-            {
-                System.Console.WriteLine($"Bunny is dead and cannot eat {foodName}");
-            }
+            //else
+            //{
+            //    System.Console.WriteLine($"Bunny is dead and cannot eat {foodName}");
+            //}
         }
     }
 }

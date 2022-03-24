@@ -10,13 +10,17 @@ namespace NatureSim.Console
             Bunny bunny = new Bunny();
             Wolf wolf = new Wolf();
             Bear bear = new Bear();
-            string[] food = { "berry", "carrot", "fish", "meat", "nothing" };
-            bunny.Eat(food[4]);
-            wolf.Eat(food[3]);
-            bear.Eat(food[1]);
-            bunny.Eat(food[4]);
-            bunny.Eat(food[4]);
-            bunny.Eat(food[4]);
+            string[] food = {
+                "berry", "carrot", "grass", "cabage", "acorn", "almond",
+                "fish", "meat", "meat", "giraffe", "elephant",
+                "nothing", "nothing", "nothing"};
+            var random = new Random();
+            do
+            {
+                bunny.Eat(food[random.Next(food.Length)]);
+                wolf.Eat(food[random.Next(food.Length)]);
+                bear.Eat(food[random.Next(food.Length)]);
+            } while (bear.IsAlive || wolf.IsAlive || bunny.IsAlive);
         }
     }
 }
