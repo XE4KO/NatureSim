@@ -1,15 +1,23 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace NatureSim.Console
-{
-    class Program
+{ 
+    
+        class Program
     {
         static void Main(string[] args)
         {
-            Bunny bunny = new Bunny();
-            Wolf wolf = new Wolf();
-            Bear bear = new Bear();
+            List<Animal> animals = new List<Animal>() {
+                new Bunny(),
+                new Wolf(),
+                new Bear()
+            };
+            List<Animal> currentAnimals = new List<Animal>() {
+                new Bunny(),
+                new Wolf(),
+                new Bear()
+            };
             string[] food = {
                 "berry", "carrot", "grass", "cabage", "acorn", "almond",
                 "fish", "meat", "meat", "giraffe", "elephant",
@@ -17,10 +25,15 @@ namespace NatureSim.Console
             var random = new Random();
             do
             {
-                bunny.Eat(food[random.Next(food.Length)]);
-                wolf.Eat(food[random.Next(food.Length)]);
-                bear.Eat(food[random.Next(food.Length)]);
-            } while (bear.IsAlive || wolf.IsAlive || bunny.IsAlive);
+                foreach (var animal in animals)
+                {
+                    animal.Eat(food[random.Next(food.Length)]);
+                    if (animal.IsAlive == false)
+                    {
+                        currentAnimals.Remove(animal);
+                    }
+                }
+            } while (currentAnimals.Count > 0);
         }
     }
 }
