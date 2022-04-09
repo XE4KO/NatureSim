@@ -5,7 +5,7 @@ namespace NatureSim.Console
     class Bunny : Animal
     {
         public Bunny()
-            : base("Bunny", 3, new HashSet<string>() { "berry", "carrot", "grass", "cabage", "acorn", "almond" })
+            : base("Bunny", 3, new HashSet<Food>() { Food.berry, Food.carrot, Food.grass, Food.acorn, })
         {
         }
     }

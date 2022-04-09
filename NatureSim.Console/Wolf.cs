@@ -5,7 +5,7 @@ namespace NatureSim.Console
     class Wolf : Animal
     {
         public Wolf()
-            : base("Wolf", 10, new HashSet<string>() { "meat", "fish", "giraffe", "elephant"})
+            : base("Wolf", 13, new HashSet<Food>() { Food.meat, Food.fish})
         {
         }
     }

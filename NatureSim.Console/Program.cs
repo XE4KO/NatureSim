@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 namespace NatureSim.Console
 {
-
-    class Program
+    partial class Program
     {
         static void Main(string[] args)
         {
@@ -20,10 +19,11 @@ namespace NatureSim.Console
                 new Cat(),
                 new Lion()
             };
-            string[] food = {
-                "berry", "carrot", "grass", "cabage", "acorn", "almond",
-                "fish", "meat", "meat", "giraffe", "elephant", "mouse", "cat food", "cat food", "cat food",
-                "nothing", "nothing", "nothing"};
+
+            Food[] food = {
+                Food.berry, Food.carrot, Food.carrot, Food.grass, Food.grass, Food.grass, Food.acorn, Food.acorn,
+                Food.fish, Food.fish, Food.meat, Food.meat, Food.mouse, Food.catFood, Food.catFood, Food.catFood,
+                Food.nothing, Food.nothing, Food.nothing};
 
             var random = new Random();
             List<Animal> aliveAnimals;

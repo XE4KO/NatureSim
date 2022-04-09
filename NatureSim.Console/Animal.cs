@@ -9,10 +9,10 @@ namespace NatureSim.Console
         private readonly string animalType;
         private int health;
         //private readonly string[] edibleFood;
-        private readonly new HashSet<string> diet;
+        private readonly new HashSet<Food> diet;
 
 
-        public Animal(string animalType, int health, HashSet<string> diet)
+        public Animal(string animalType, int health, HashSet<Food> diet)
         {
             this.animalType = animalType;
             this.health = health;
@@ -24,7 +24,7 @@ namespace NatureSim.Console
         }
 
         public bool IsAlive => health > 0;
-        public void Eat(string foodName)
+        public void Eat(Food foodName)
         {
             if (IsAlive)
             {
