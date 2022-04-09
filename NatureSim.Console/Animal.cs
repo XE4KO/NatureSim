@@ -6,9 +6,18 @@ namespace NatureSim.Console
 {
     class Animal
     {
-        protected int health;
-        protected string[] diet;
-        protected string animalType;
+        private readonly string animalType;
+        private int health;
+        //private readonly string[] edibleFood;
+        private readonly new HashSet<string> diet;
+
+
+        public Animal(string animalType, int health, HashSet<string> diet)
+        {
+            this.animalType = animalType;
+            this.health = health;
+            this.diet = diet;
+        }
 
         public Animal()
         {
