@@ -9,29 +9,25 @@ namespace NatureSim.Console
         private readonly string animalType;
         private int health;
         //private readonly string[] edibleFood;
-        private readonly new HashSet<Food> diet;
+        private readonly HashSet<Foods> diet;
 
 
-        public Animal(string animalType, int health, HashSet<Food> diet)
+        public Animal(string animalType, int health, HashSet<Foods> diet)
         {
             this.animalType = animalType;
             this.health = health;
             this.diet = diet;
         }
 
-        public Animal()
-        {
-        }
-
         public bool IsAlive => health > 0;
-        public void Eat(Food foodName)
+        public void Eat(Foods foodName, int healthGain)
         {
             if (IsAlive)
             {
                 if (diet.Contains(foodName))
                 {
 
-                    health++;
+                    health += healthGain;
                     System.Console.WriteLine($"{animalType} eats {foodName} and has {health} health.");
                 }
                 else

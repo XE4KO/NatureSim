@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace NatureSim.Console
 {
+    
     partial class Program
     {
         static void Main(string[] args)
@@ -21,9 +22,9 @@ namespace NatureSim.Console
             };
 
             Food[] food = {
-                Food.berry, Food.carrot, Food.carrot, Food.grass, Food.grass, Food.grass, Food.acorn, Food.acorn,
-                Food.fish, Food.fish, Food.meat, Food.meat, Food.mouse, Food.catFood, Food.catFood, Food.catFood,
-                Food.nothing, Food.nothing, Food.nothing};
+                new Berry(), new Carrot(), new Carrot(), new Grass(), new Grass(), new Grass(), new Acorn(), new Acorn(),
+                new Fish(), new Fish(), new Meat(), new Meat(), new Mouse(), new CatFood(), new CatFood(), new CatFood(),
+                new Nothing(), new Nothing(), new Nothing()};
 
             var random = new Random();
             List<Animal> aliveAnimals;
@@ -32,7 +33,8 @@ namespace NatureSim.Console
                 aliveAnimals = new List<Animal>();
                 foreach (var animal in animals)
                 {
-                    animal.Eat(food[random.Next(food.Length)]);
+                    var eating = food[random.Next(food.Length)];
+                    animal.Eat(eating.foodName, eating.nutrients);
                     if (animal.IsAlive)
                     {
                         aliveAnimals.Add(animal);

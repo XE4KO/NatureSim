@@ -1,15 +1,97 @@
 ﻿namespace NatureSim.Console
 {
-        enum Food
+    enum Foods
+    {
+        berry,
+        carrot,
+        grass,
+        acorn,
+        fish,
+        meat,
+        mouse,
+        catFood,
+        nothing
+    }
+    class Food
+    {
+        public int nutrients;
+        public Foods foodName;
+        public Food(int nutrients, Foods foodName)
         {
-            berry, 
-            carrot, 
-            grass, 
-            acorn, 
-            fish, 
-            meat, 
-            mouse, 
-            catFood, 
-            nothing
+            this.nutrients = nutrients;
+            this.foodName = foodName;
         }
+    }
+    class Berry : Food
+    {
+        public Berry()
+            : base(1, Foods.berry)
+        {
+
+        }
+    }
+    class Carrot : Food
+    {
+        public Carrot()
+            : base(3, Foods.carrot)
+        {
+
+        }
+    }
+    class Grass : Food
+    {
+        public Grass()
+            : base(1, Foods.grass)
+        {
+
+        }
+    }
+    class Acorn : Food
+    {
+        public Acorn()
+            : base(2, Foods.acorn)
+        {
+
+        }
+    }
+    class Fish : Food
+    {
+        public Fish()
+            : base(4, Foods.fish)
+        {
+
+        }
+    }
+    class Meat : Food
+    {
+        public Meat()
+            : base(5, Foods.meat)
+        {
+
+        }
+    }
+    class Mouse : Food
+    {
+        public Mouse()
+            : base(2, Foods.mouse)
+        {
+
+        }
+    }
+    class CatFood : Food
+    {
+        public CatFood()
+            : base(3, Foods.catFood)
+        {
+
+        }
+    }
+    class Nothing : Food
+    {
+        public Nothing()
+            : base(0, Foods.nothing)
+        {
+
+        }
+    }
 }
