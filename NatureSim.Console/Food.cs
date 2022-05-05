@@ -12,10 +12,11 @@
         catFood,
         nothing
     }
+
     class Food
     {
-        public int nutrients;
-        public Foods foodName;
+        public int nutrients { get; }
+        public Foods foodName { get; }
         public Food(int nutrients, Foods foodName)
         {
             this.nutrients = nutrients;

@@ -6,6 +6,7 @@ namespace NatureSim.Console
     
     partial class Program
     {
+        //!!!!!ask about how to make foods give different health using records!!!!!
         static void Main(string[] args)
         {
             List<Animal> animals = new List<Animal>() {
@@ -34,7 +35,7 @@ namespace NatureSim.Console
                 foreach (var animal in animals)
                 {
                     var eating = food[random.Next(food.Length)];
-                    animal.Eat(eating.foodName, eating.nutrients);
+                    animal.Eat(eating);
                     if (animal.IsAlive)
                     {
                         aliveAnimals.Add(animal);
