@@ -8,6 +8,7 @@ namespace NatureSim.Console
 			: base(
 				"Bear",
 				15,
+				2,
 				new[] {
 					Foods.meat,
 					Foods.fish,

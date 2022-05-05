@@ -10,12 +10,14 @@ namespace NatureSim.Console
         private int health;
         //private readonly string[] edibleFood;
         private readonly HashSet<Foods> diet;
+        private int starve;
 
 
-        public Animal(string animalType, int health, IEnumerable<Foods> diet)
+        public Animal(string animalType, int health, int starve, IEnumerable<Foods> diet)
         {
             this.animalType = animalType;
             this.health = health;
+            this.starve = starve;
             this.diet = new HashSet<Foods>(diet);
         }
 
@@ -32,7 +34,7 @@ namespace NatureSim.Console
                 }
                 else
                 {
-                    health--;
+                    health -= starve;
                     if (!IsAlive)
                     {
                         System.Console.BackgroundColor = System.ConsoleColor.DarkRed;
@@ -44,10 +46,6 @@ namespace NatureSim.Console
                         System.Console.WriteLine($"{animalType} does not eat {food.foodName} and is left with {health} health.");
                 }
             }
-            //else
-            //{
-            //    System.Console.WriteLine($"Wolf is dead and cannot eat {foodName}");
-            //}
         }
     }
 }

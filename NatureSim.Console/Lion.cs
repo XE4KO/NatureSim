@@ -5,7 +5,7 @@ namespace NatureSim.Console
 	class Lion : Animal
 	{
 		public Lion()
-			: base("Lion", 13, new[] { Foods.mouse, Foods.meat, Foods.fish })
+			: base("Lion", 13, 3, new[] { Foods.mouse, Foods.meat, Foods.fish })
 		{
 		}
 	}
