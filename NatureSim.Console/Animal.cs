@@ -12,11 +12,11 @@ namespace NatureSim.Console
         private readonly HashSet<Foods> diet;
 
 
-        public Animal(string animalType, int health, HashSet<Foods> diet)
+        public Animal(string animalType, int health, IEnumerable<Foods> diet)
         {
             this.animalType = animalType;
             this.health = health;
-            this.diet = diet;
+            this.diet = new HashSet<Foods>(diet);
         }
 
         public bool IsAlive => health > 0;
