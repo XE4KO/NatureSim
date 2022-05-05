@@ -24,7 +24,7 @@ namespace NatureSim.Console
 
             Food[] food = {
                 new Berry(), new Carrot(), new Carrot(), new Grass(), new Grass(), new Grass(), new Acorn(), new Acorn(),
-                new Fish(), new Fish(), new Meat(), new Meat(), new Mouse(), new CatFood(), new CatFood(), new CatFood(),
+                new Fish(), new Fish(), new Meat(), new Meat(), new Mouse(), new Fly(), new Fly(), new Fly(),
                 new Nothing(), new Nothing(), new Nothing()};
 
             var random = new Random();

@@ -5,7 +5,7 @@ namespace NatureSim.Console
 	class Cat : Animal
 	{
 		public Cat()
-			: base("Cat", 5, 2, new[] { Foods.mouse, Foods.catFood, Foods.fish })
+			: base("Cat", 5, 2, new[] { Foods.mouse, Foods.fly, Foods.fish })
 		{
 		}
 	}

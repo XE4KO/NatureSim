@@ -9,7 +9,7 @@
         fish,
         meat,
         mouse,
-        catFood,
+        fly,
         nothing
     }
 
@@ -79,10 +79,10 @@
 
         }
     }
-    class CatFood : Food
+    class Fly : Food
     {
-        public CatFood()
-            : base(3, Foods.catFood)
+        public Fly()
+            : base(1, Foods.fly)
         {
 
         }
