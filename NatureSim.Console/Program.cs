@@ -9,6 +9,10 @@ namespace NatureSim.Console
         //!!!!!ask about how to make foods give different health using records!!!!!
         static void Main(string[] args)
         {
+            var mapWidth = 10;
+            var mapHeight = 10;
+            var random = new Random();
+            
             List<Animal> animals = new List<Animal>() {
                 new Bunny(),
                 new Wolf(),
@@ -27,7 +31,28 @@ namespace NatureSim.Console
                 new Fish(), new Fish(), new Meat(), new Meat(), new Mouse(), new Fly(), new Fly(), new Fly(),
                 new Nothing(), new Nothing(), new Nothing()};
 
-            var random = new Random();
+            Biome[] biomes = {
+                new Forest(),
+                new Swamp(),
+                new Field(),
+                new Mountain(),
+                new Ocean(),
+                new River()
+            };
+            Biome[,] map = new Biome[mapWidth, mapHeight];
+			/*foreach (var tile in map)
+            {
+                var biome = biomes[random.Next(biomes.Length)];
+                tile = biome;
+            }*/
+			for (int currentMapWidth = 0; currentMapWidth < mapWidth; currentMapWidth++)
+			{
+				for (int currentMapHeight = 0; currentMapHeight < mapHeight; currentMapHeight++)
+				{
+                    map[currentMapWidth, currentMapHeight] = biomes[random.Next(biomes.Length)];
+                }
+			}
+
             List<Animal> aliveAnimals;
             do
             {
