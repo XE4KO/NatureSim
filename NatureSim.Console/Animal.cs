@@ -11,7 +11,10 @@ namespace NatureSim.Console
         //private readonly string[] edibleFood;
         private readonly HashSet<Foods> diet;
         private int starve;
-
+        private int coordsX;
+        private int coordsY;
+        private Random random = new Random();
+        Map map = new Map();
 
         public Animal(string animalType, int health, int starve, IEnumerable<Foods> diet)
         {
@@ -19,6 +22,8 @@ namespace NatureSim.Console
             this.health = health;
             this.starve = starve;
             this.diet = new HashSet<Foods>(diet);
+            this.coordsX = random.Next(map.width);
+            this.coordsY = random.Next(map.height);
         }
 
         public bool IsAlive => health > 0;
@@ -46,6 +51,28 @@ namespace NatureSim.Console
                         System.Console.WriteLine($"{animalType} does not eat {food.foodName} and is left with {health} health.");
                 }
             }
+        }
+        public void Move()
+		{
+            coordsX += random.Next(3) - 1;
+            coordsY += random.Next(3) - 1;
+			if (coordsX > map.width)
+			{
+                coordsX = 0;
+			}
+            if (coordsX < 0)
+            {
+                coordsX = map.width;
+            }
+            if (coordsY > map.height)
+            {
+                coordsY = 0;
+            }
+            if (coordsY < 0)
+            {
+                coordsY = map.height;
+            }
+            //System.Console.WriteLine($"{animalType} moved to [{coordsX}:{coordsY}].");
         }
     }
 }
