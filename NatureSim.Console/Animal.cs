@@ -15,8 +15,7 @@ namespace NatureSim.Console
         private int coordsY;
         private Random random = new Random();
         Map map = new Map();
-
-        public Animal(string animalType, int health, int starve, IEnumerable<Foods> diet)
+        public Animal(string animalType, int health, int starve, IEnumerable<Foods> diet, Biome[,] mapBiomes)
         {
             this.animalType = animalType;
             this.health = health;

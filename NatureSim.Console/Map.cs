@@ -15,9 +15,9 @@ namespace NatureSim.Console
                 new Ocean(),
                 new River()
         };
-        public void GenerateMap()
+        public void GenerateMap(Biome[,] map) 
         {
-            Biome[,] map = new Biome[width, height];
+            map = new Biome[width, height];
             for (int currentWidth = 0; currentWidth < width; currentWidth++)
             {
                 for (int currentHeight = 0; currentHeight < height; currentHeight++)
