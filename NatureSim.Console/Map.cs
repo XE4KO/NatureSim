@@ -1,13 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NatureSim.Console
 {
 	class Map
     {
-        public readonly int width = 10;
-        public readonly int height = 10;
+        public int Width => width;
+        public int Height => height;
+
+        private int width;
+        private int height;
+
         private Random random = new Random();
-        private Biome[] biomes = {
+        private readonly IReadOnlyList<Biome> biomes = new Biome[] {
                 new Forest(),
                 new Swamp(),
                 new Field(),
@@ -15,16 +20,35 @@ namespace NatureSim.Console
                 new Ocean(),
                 new River()
         };
-        public void GenerateMap()
+
+        public Biome this[int x,int y] => tiles[x,y];
+
+        private Biome[,] tiles;
+        public void GenerateMap(int width, int height) 
         {
-            Biome[,] map = new Biome[width, height];
+            this.width = width;
+            this.height = height;
+            tiles = new Biome[width, height];
             for (int currentWidth = 0; currentWidth < width; currentWidth++)
             {
                 for (int currentHeight = 0; currentHeight < height; currentHeight++)
                 {
-                    map[currentWidth, currentHeight] = biomes[random.Next(biomes.Length)];
+                    tiles[currentWidth, currentHeight] = biomes[random.Next(biomes.Count)];
                 }
             }
+        }
+
+        public int LimitY(int coordsY) => Limit(coordsY, Height);
+        public int LimitX(int coordsX) => Limit(coordsX, Width);
+
+        private static int Limit(int coord, int max)
+        {
+            if (coord > max)
+                return 0;
+            if (coord < 0)
+                return max;
+            return coord;
+
         }
     }
 }

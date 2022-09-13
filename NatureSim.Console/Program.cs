@@ -8,9 +8,8 @@ namespace NatureSim.Console
         //!!!!!ask about how to make foods give different health using records!!!!!
         static void Main(string[] args)
         {
-            var random = new Random();
             Map map = new Map();
-            map.GenerateMap();
+            map.GenerateMap(10,10);
             List<Animal> animals = new List<Animal>() {
                 new Bunny(),
                 new Wolf(),
@@ -24,22 +23,14 @@ namespace NatureSim.Console
                 new Lion()
             };
 
-            Food[] food = {
-                new Berry(), new Carrot(), new Carrot(), new Grass(), new Grass(), new Grass(), new Acorn(), new Acorn(),
-                new Fish(), new Fish(), new Meat(), new Meat(), new Mouse(), new Fly(), new Fly(), new Fly(),
-                new Nothing(), new Nothing(), new Nothing()};
-
-         
-            
-
             List<Animal> aliveAnimals;
             do
             {
                 aliveAnimals = new List<Animal>();
                 foreach (var animal in animals)
                 {
-                    var eating = food[random.Next(food.Length)];
-                    animal.Eat(eating);
+                    var animalCurrentTile = map[animal.coordsX, animal.coordsY];
+                    animal.Eat(animalCurrentTile.FindFood());
                     animal.Move();
                     if (animal.IsAlive)
                     {
