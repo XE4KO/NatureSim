@@ -17,43 +17,33 @@
     {
         public int nutrients { get; }
         public Foods foodName { get; }
-        public Food(int nutrients, Foods foodName)
+        public int MaxAmount { get; }
+        public Food(int nutrients, Foods foodName, int maxAmount)
         {
             this.nutrients = nutrients;
             this.foodName = foodName;
+            MaxAmount = maxAmount;
         }
     }
     class Berry : Food
     {
-        public Berry()
-            : base(1, Foods.berry)
-        {
-
-        }
+        public Berry(int maxAmount) 
+            : base(1, Foods.berry, maxAmount) { }
     }
     class Carrot : Food
     {
-        public Carrot()
-            : base(3, Foods.carrot)
-        {
-
-        }
+        public Carrot(int maxAmount)
+            : base(3, Foods.carrot, maxAmount) { }
     }
     class Grass : Food
     {
-        public Grass()
-            : base(1, Foods.grass)
-        {
-
-        }
-    }
+		public Grass(int maxAmount)
+			: base(1, Foods.grass, maxAmount) { }
+	}
     class Acorn : Food
     {
-        public Acorn()
-            : base(2, Foods.acorn)
-        {
-
-        }
+        public Acorn(int maxAmount)
+            : base(2, Foods.acorn, maxAmount) { }
     }
     class Fish : Food
     {
