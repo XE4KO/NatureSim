@@ -33,24 +33,27 @@ namespace NatureSim.Console
                 {
 
                     health += food.nutrients;
+                    System.Console.BackgroundColor = ConsoleColor.DarkGreen;
                     System.Console.WriteLine($"{animalType} eats {food.foodName} and has {health} health.");
+                    System.Console.BackgroundColor = ConsoleColor.Black;
                 }
                 else
                 {
                     health -= starve;
+                    string doesNotEatMessage = food.GetDoesNotEatMessage();
                     if (!IsAlive)
                     {
-                        System.Console.BackgroundColor = System.ConsoleColor.DarkRed;
-                        System.Console.Write($"{animalType} does not eat {food.foodName} and died");
-                        System.Console.BackgroundColor = System.ConsoleColor.Black;
-                        System.Console.WriteLine(" ");
+                        System.Console.BackgroundColor = ConsoleColor.DarkRed;
+                        System.Console.WriteLine($"{animalType} {doesNotEatMessage} and died");
+                        System.Console.BackgroundColor = ConsoleColor.Black;
                         System.Console.ReadKey();
                     }
                     else
-                        System.Console.WriteLine($"{animalType} does not eat {food.foodName} and is left with {health} health.");
+                        System.Console.WriteLine($"{animalType} {doesNotEatMessage} and is left with {health} health.");
                 }
             }
         }
+
         public void Move()
 		{
 			coordsX += random.Next(3) - 1;

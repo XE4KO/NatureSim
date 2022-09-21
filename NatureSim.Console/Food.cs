@@ -1,4 +1,6 @@
-﻿namespace NatureSim.Console
+﻿using System;
+
+namespace NatureSim.Console
 {
     enum Foods
     {
@@ -13,7 +15,7 @@
         nothing
     }
 
-    class Food
+    abstract class Food
     {
         public int nutrients { get; }
         public Foods foodName { get; }
@@ -24,6 +26,8 @@
             this.foodName = foodName;
             MaxAmount = maxAmount;
         }
+        internal virtual string GetDoesNotEatMessage()
+            => $"does not eat {foodName}";
     }
     class Berry : Food
     {
@@ -65,9 +69,13 @@
         public Fly(int maxAmount)
             : base(1, Foods.fly, maxAmount) { }
     }
-    class Nothing : Food
+    class NoFood : Food
     {
-        public Nothing(int maxAmount)
-            : base(0, Foods.nothing, maxAmount) { }
+        public static readonly NoFood Instance = new NoFood();
+        private NoFood()
+            : base(0, Foods.nothing, 0) { }
+
+        internal override string GetDoesNotEatMessage()
+            => $"does not find any food";
     }
 }
