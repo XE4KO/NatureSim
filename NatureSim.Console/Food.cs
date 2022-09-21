@@ -47,42 +47,27 @@
     }
     class Fish : Food
     {
-        public Fish()
-            : base(4, Foods.fish)
-        {
-
-        }
+        public Fish(int maxAmount)
+            : base(4, Foods.fish, maxAmount) { }
     }
     class Meat : Food
     {
-        public Meat()
-            : base(5, Foods.meat)
-        {
-
-        }
+        public Meat(int maxAmount)
+            : base(5, Foods.meat, maxAmount) { }
     }
     class Mouse : Food
     {
-        public Mouse()
-            : base(2, Foods.mouse)
-        {
-
-        }
+        public Mouse(int maxAmount)
+            : base(2, Foods.mouse, maxAmount) { }
     }
     class Fly : Food
     {
-        public Fly()
-            : base(1, Foods.fly)
-        {
-
-        }
+        public Fly(int maxAmount)
+            : base(1, Foods.fly, maxAmount) { }
     }
     class Nothing : Food
     {
-        public Nothing()
-            : base(0, Foods.nothing)
-        {
-
-        }
+        public Nothing(int maxAmount)
+            : base(0, Foods.nothing, maxAmount) { }
     }
 }
