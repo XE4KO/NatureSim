@@ -25,27 +25,29 @@ namespace NatureSim.Console
         }
 
         public bool IsAlive => health > 0;
-        public void Eat(Food food)
+        public void Eat(FoodData food)
         {
             if (IsAlive)
             {
-                if (diet.Contains(food.foodName))
+                if (diet.Contains(food.Info.foodName))
                 {
-
-                    health += food.nutrients;
+                    var consumedFood = food.Consume(1);
+                    health += consumedFood.Nutrients;
                     System.Console.BackgroundColor = ConsoleColor.DarkGreen;
-                    System.Console.WriteLine($"{animalType} eats {food.foodName} and has {health} health.");
+                    System.Console.Write($"{animalType} eats {food.Info.foodName} and has {health} health.");
                     System.Console.BackgroundColor = ConsoleColor.Black;
+                    System.Console.WriteLine(' ');
                 }
                 else
                 {
                     health -= starve;
-                    string doesNotEatMessage = food.GetDoesNotEatMessage();
+                    string doesNotEatMessage = food.Info.GetDoesNotEatMessage();
                     if (!IsAlive)
                     {
                         System.Console.BackgroundColor = ConsoleColor.DarkRed;
-                        System.Console.WriteLine($"{animalType} {doesNotEatMessage} and died");
+                        System.Console.Write($"{animalType} {doesNotEatMessage} and died");
                         System.Console.BackgroundColor = ConsoleColor.Black;
+                        System.Console.WriteLine(' ');
                         System.Console.ReadKey();
                     }
                     else

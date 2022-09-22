@@ -9,7 +9,7 @@ namespace NatureSim.Console
         static void Main(string[] args)
         {
             Map map = new Map();
-            map.GenerateMap(10,10);
+            map.GenerateMap(5,10);
             List<Animal> animals = new List<Animal>() {
                 new Bunny(),
                 new Wolf(),
