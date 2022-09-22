@@ -12,7 +12,7 @@ namespace NatureSim.Console
         private int height;
 
         private Random random = new Random();
-        private readonly IReadOnlyList<Biome> biomes = new Biome[] {
+        private static readonly IReadOnlyList<Biome> Biomes = new Biome[] {
                 new Forest(),
                 new Swamp(),
                 new Field(),
@@ -21,19 +21,19 @@ namespace NatureSim.Console
                 new River()
         };
 
-        public Biome this[int x,int y] => tiles[x,y];
+        public Tile this[int x,int y]  => tiles[x,y];
 
-        private Biome[,] tiles;
+        private Tile[,] tiles;
         public void GenerateMap(int width, int height) 
         {
             this.width = width;
             this.height = height;
-            tiles = new Biome[width, height];
+            tiles = new Tile[width, height];
             for (int currentWidth = 0; currentWidth < width; currentWidth++)
             {
                 for (int currentHeight = 0; currentHeight < height; currentHeight++)
                 {
-                    tiles[currentWidth, currentHeight] = biomes[random.Next(biomes.Count)];
+                    tiles[currentWidth, currentHeight] = new Tile(Biomes[random.Next(Biomes.Count)]);
                 }
             }
         }

@@ -1,4 +1,6 @@
-﻿namespace NatureSim.Console
+﻿using System;
+
+namespace NatureSim.Console
 {
     enum Foods
     {
@@ -13,86 +15,69 @@
         nothing
     }
 
-    class Food
+    abstract class FoodInfo
     {
         public int nutrients { get; }
         public Foods foodName { get; }
-        public Food(int nutrients, Foods foodName)
+        public int MaxAmount { get; }
+        public int RegenRate { get; }
+        public FoodInfo(int nutrients, Foods foodName, int maxAmount, int regenRate)
         {
             this.nutrients = nutrients;
             this.foodName = foodName;
+            MaxAmount = maxAmount;
+            RegenRate = regenRate;
         }
+        internal virtual string GetDoesNotEatMessage()
+            => $"does not eat {foodName}";
     }
-    class Berry : Food
+    class Berry : FoodInfo
     {
-        public Berry()
-            : base(1, Foods.berry)
-        {
-
-        }
+        public Berry(int maxAmount, int regenRate) 
+            : base(1, Foods.berry, maxAmount, regenRate) { }
     }
-    class Carrot : Food
+    class Carrot : FoodInfo
     {
-        public Carrot()
-            : base(3, Foods.carrot)
-        {
-
-        }
+        public Carrot(int maxAmount, int regenRate)
+            : base(3, Foods.carrot, maxAmount, regenRate) { }
     }
-    class Grass : Food
+    class Grass : FoodInfo
     {
-        public Grass()
-            : base(1, Foods.grass)
-        {
-
-        }
+		public Grass(int maxAmount, int regenRate)
+			: base(1, Foods.grass, maxAmount, regenRate) { }
+	}
+    class Acorn : FoodInfo
+    {
+        public Acorn(int maxAmount, int regenRate)
+            : base(2, Foods.acorn, maxAmount, regenRate) { }
     }
-    class Acorn : Food
+    class Fish : FoodInfo
     {
-        public Acorn()
-            : base(2, Foods.acorn)
-        {
-
-        }
+        public Fish(int maxAmount, int regenRate)
+            : base(4, Foods.fish, maxAmount, regenRate) { }
     }
-    class Fish : Food
+    class Meat : FoodInfo
     {
-        public Fish()
-            : base(4, Foods.fish)
-        {
-
-        }
+        public Meat(int maxAmount, int regenRate)
+            : base(5, Foods.meat, maxAmount, regenRate) { }
     }
-    class Meat : Food
+    class Mouse : FoodInfo
     {
-        public Meat()
-            : base(5, Foods.meat)
-        {
-
-        }
+        public Mouse(int maxAmount, int regenRate)
+            : base(2, Foods.mouse, maxAmount, regenRate) { }
     }
-    class Mouse : Food
+    class Fly : FoodInfo
     {
-        public Mouse()
-            : base(2, Foods.mouse)
-        {
-
-        }
+        public Fly(int maxAmount, int regenRate)
+            : base(1, Foods.fly, maxAmount, regenRate) { }
     }
-    class Fly : Food
+    class NoFood : FoodInfo
     {
-        public Fly()
-            : base(1, Foods.fly)
-        {
+        public static readonly NoFood Instance = new NoFood();
+        private NoFood()
+            : base(0, Foods.nothing, 0, 0) { }
 
-        }
-    }
-    class Nothing : Food
-    {
-        public Nothing()
-            : base(0, Foods.nothing)
-        {
-
-        }
+        internal override string GetDoesNotEatMessage()
+            => $"does not find any food";
     }
 }

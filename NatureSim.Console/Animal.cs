@@ -25,32 +25,37 @@ namespace NatureSim.Console
         }
 
         public bool IsAlive => health > 0;
-        public void Eat(Food food)
+        public void Eat(FoodData food)
         {
             if (IsAlive)
             {
-                if (diet.Contains(food.foodName))
+                if (diet.Contains(food.Info.foodName))
                 {
-
-                    health += food.nutrients;
-                    System.Console.WriteLine($"{animalType} eats {food.foodName} and has {health} health.");
+                    var consumedFood = food.Consume(1);
+                    health += consumedFood.Nutrients;
+                    System.Console.BackgroundColor = ConsoleColor.DarkGreen;
+                    System.Console.Write($"{animalType} eats {food.Info.foodName} and has {health} health.");
+                    System.Console.BackgroundColor = ConsoleColor.Black;
+                    System.Console.WriteLine(' ');
                 }
                 else
                 {
                     health -= starve;
+                    string doesNotEatMessage = food.Info.GetDoesNotEatMessage();
                     if (!IsAlive)
                     {
-                        System.Console.BackgroundColor = System.ConsoleColor.DarkRed;
-                        System.Console.Write($"{animalType} does not eat {food.foodName} and died");
-                        System.Console.BackgroundColor = System.ConsoleColor.Black;
-                        System.Console.WriteLine(" ");
+                        System.Console.BackgroundColor = ConsoleColor.DarkRed;
+                        System.Console.Write($"{animalType} {doesNotEatMessage} and died");
+                        System.Console.BackgroundColor = ConsoleColor.Black;
+                        System.Console.WriteLine(' ');
                         System.Console.ReadKey();
                     }
                     else
-                        System.Console.WriteLine($"{animalType} does not eat {food.foodName} and is left with {health} health.");
+                        System.Console.WriteLine($"{animalType} {doesNotEatMessage} and is left with {health} health.");
                 }
             }
         }
+
         public void Move()
 		{
 			coordsX += random.Next(3) - 1;
