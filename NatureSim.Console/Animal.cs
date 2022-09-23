@@ -48,9 +48,10 @@ namespace NatureSim.Console
                         System.Console.Write($"{animalType} {doesNotEatMessage} and died");
                         System.Console.BackgroundColor = ConsoleColor.Black;
                         System.Console.WriteLine(' ');
-                        System.Console.ReadKey();
+                        if (Configuration.DetailedInfo)
+                            System.Console.ReadKey();
                     }
-                    else
+                    else if (Configuration.DetailedInfo)
                         System.Console.WriteLine($"{animalType} {doesNotEatMessage} and is left with {health} health.");
                 }
             }

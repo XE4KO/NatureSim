@@ -40,6 +40,8 @@ namespace NatureSim.Console
                 map.Update();
                 animals = aliveAnimals;
             } while (aliveAnimals.Count > 0);
+            System.Console.WriteLine($"Last animal survived {map.Ticks} ticks.");
+
         }
     }
 }

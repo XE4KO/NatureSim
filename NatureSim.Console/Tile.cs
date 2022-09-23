@@ -4,41 +4,6 @@ using System.Linq;
 
 namespace NatureSim.Console
 {
-    class FoodData
-    {
-        public FoodData(FoodInfo food)
-        {
-            Info = food;
-            Amount = food.MaxAmount;
-        }
-
-        public FoodData(FoodInfo food, int amount)
-        {
-            Info = food;
-            Amount = amount;
-        }
-
-
-        public FoodInfo Info { get; }
-        public int Amount { get; private set; }
-        public int Nutrients => Amount * Info.nutrients;
-
-        internal FoodData Consume(int consumeAmount)
-        {
-            if (Amount < consumeAmount)
-                consumeAmount = Amount;
-            Amount-= consumeAmount;
-            return new FoodData(Info, consumeAmount);
-        }
-
-        internal void Regen()
-        {
-            if (Amount < Info.MaxAmount)
-            {
-                Amount++;
-            }
-        }
-    }
     class Tile
     {
         static readonly Random random = new();
@@ -76,15 +41,27 @@ namespace NatureSim.Console
             return currentFoodIndex;
         }
 
-        public void OnUpdate(int ticks)
+        private int updatedTick = 0;
+        public void OnUpdate(int lastTick)
         {
-            foreach(var food in this.food)
+            if (NeedUpdated(lastTick))
             {
-                if (ticks % food.Info.RegenRate == 0)
+                foreach (var food in this.food)
                 {
-                    food.Regen();
+                    food.Regen(lastTick);
+                    //if (lastTicks % food.Info.RegenRate == 0)
+                    //{
+                    //    food.Regen();
+                    //}
                 }
             }
+        }
+        private bool NeedUpdated(int lastTick)
+        {
+            var result = updatedTick != lastTick;
+            if (result)
+                updatedTick = lastTick;
+            return result;
         }
     }
 }

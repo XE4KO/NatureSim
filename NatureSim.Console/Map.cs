@@ -7,12 +7,12 @@ namespace NatureSim.Console
     {
         public int Width => width;
         public int Height => height;
-        int time = 0;
+        int ticks = 0;
 
         private int width;
         private int height;
 
-        private Random random = new Random();
+        private Random random = new Random(1);
         private static readonly IReadOnlyList<Biome> Biomes = new Biome[] {
                 new Forest(),
                 new Swamp(),
@@ -22,7 +22,15 @@ namespace NatureSim.Console
                 new River()
         };
 
-        public Tile this[int x,int y]  => tiles[x,y];
+        public Tile this[int x, int y]
+        {
+            get
+            {
+                var result = tiles[x, y];
+                result.OnUpdate(ticks);
+                return result;
+            }
+        }
 
         private Tile[,] tiles;
         public void GenerateMap(int width, int height) 
@@ -40,6 +48,10 @@ namespace NatureSim.Console
         }
 
         public int LimitY(int coordsY) => Limit(coordsY, Height);
+
+        internal int Ticks 
+            => ticks;
+
         public int LimitX(int coordsX) => Limit(coordsX, Width);
 
         private static int Limit(int coord, int max)
@@ -54,11 +66,11 @@ namespace NatureSim.Console
 
         public void Update()
         {
-            time++;
-            foreach (var tile in tiles)
-            {
-                tile.OnUpdate(time);
-            }
+            ticks++;
+            //foreach (var tile in tiles)
+            //{
+            //    tile.OnUpdate(time);
+            //}
         }
     }
 }
