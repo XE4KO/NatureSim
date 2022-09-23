@@ -41,7 +41,7 @@ namespace NatureSim.Console
     }
     class Tile
     {
-        static readonly Random random = new();
+        static readonly Random random = Configuration.CreateRandom();
         private readonly Biome biome;
         private readonly FoodData[] food;
         private readonly int maxTotalFoodAmount;

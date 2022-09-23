@@ -4,10 +4,6 @@ namespace NatureSim.Console
 {
     internal record Biome(int FoodScarcity, params FoodInfo[] AvailableFoods)
     {
-        static readonly Random random = new();
-
-        internal FoodInfo FindFood()
-            => AvailableFoods[random.Next(AvailableFoods.Length)];
     }
 
     record Field() : Biome(0, new Grass(20, 2), new Meat(5, 3), new Carrot(10, 3));
@@ -16,5 +12,4 @@ namespace NatureSim.Console
     record River() : Biome(15, new Fish(10, 2));
     record Swamp() : Biome(10, new Fish(5, 5), new Fly(12, 2));
     record Ocean() : Biome(10, new Fish(20, 3));
-
 }

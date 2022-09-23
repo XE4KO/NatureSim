@@ -8,11 +8,11 @@ namespace NatureSim.Console
         public int Width => width;
         public int Height => height;
         int time = 0;
-
+        public int Ticks => time;
         private int width;
         private int height;
 
-        private Random random = new Random();
+        private Random random = Configuration.CreateRandom();
         private static readonly IReadOnlyList<Biome> Biomes = new Biome[] {
                 new Forest(),
                 new Swamp(),
