@@ -15,6 +15,6 @@ namespace NatureSim.Console
     record Mountain() : Biome(10, new Grass(7, 4), new Berry(10, 4));
     record River() : Biome(15, new Fish(10, 2));
     record Swamp() : Biome(10, new Fish(5, 5), new Fly(12, 2));
-    record Ocean() : Biome(10, new Fish(20, 2));
+    record Ocean() : Biome(10, new Fish(20, 3));
 
 }

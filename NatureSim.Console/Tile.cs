@@ -76,7 +76,7 @@ namespace NatureSim.Console
             return currentFoodIndex;
         }
 
-        void OnUpdate(int ticks)
+        public void OnUpdate(int ticks)
         {
             foreach(var food in this.food)
             {

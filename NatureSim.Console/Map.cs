@@ -7,6 +7,7 @@ namespace NatureSim.Console
     {
         public int Width => width;
         public int Height => height;
+        int time = 0;
 
         private int width;
         private int height;
@@ -49,6 +50,15 @@ namespace NatureSim.Console
                 return max;
             return coord;
 
+        }
+
+        public void Update()
+        {
+            time++;
+            foreach (var tile in tiles)
+            {
+                tile.OnUpdate(time);
+            }
         }
     }
 }

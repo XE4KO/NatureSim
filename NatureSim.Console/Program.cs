@@ -37,6 +37,7 @@ namespace NatureSim.Console
                         aliveAnimals.Add(animal);
                     }
                 }
+                map.Update();
                 animals = aliveAnimals;
             } while (aliveAnimals.Count > 0);
         }
