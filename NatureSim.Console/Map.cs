@@ -12,7 +12,7 @@ namespace NatureSim.Console
         private int width;
         private int height;
 
-        private Random random = new Random(1);
+        private Random random = Configuration.CreateRandom();
         private static readonly IReadOnlyList<Biome> Biomes = new Biome[] {
                 new Forest(),
                 new Swamp(),

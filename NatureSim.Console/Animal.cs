@@ -12,7 +12,7 @@ namespace NatureSim.Console
         private int starve;
         public int coordsX;
         public int coordsY;
-        private Random random = new Random();
+        private Random random = Configuration.CreateRandom();
         Map map = new Map();
         public Animal(string animalType, int health, int starve, IEnumerable<Foods> diet)
         {
