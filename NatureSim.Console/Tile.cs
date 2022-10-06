@@ -6,24 +6,24 @@ namespace NatureSim.Console
 {
     class Tile
     {
-        static readonly Random random = Configuration.CreateRandom();
-        private readonly Biome biome;
-        private readonly FoodData[] food;
-        private readonly int maxTotalFoodAmount;
+        static readonly Random _random = Configuration.CreateRandom();
+        private readonly Biome _biome;
+        private readonly FoodData[] _food;
+        private readonly int _maxTotalFoodAmount;
         public Tile(Biome biome)
         {
-            this.biome = biome;
+            this._biome = biome;
             var foodCount = biome.AvailableFoods.Length;
-            this.food = biome.AvailableFoods.Select(x => new FoodData(x)).ToArray();
-            this.maxTotalFoodAmount = biome.AvailableFoods.Sum(x => x.MaxAmount) + biome.FoodScarcity;
+            this._food = biome.AvailableFoods.Select(x => new FoodData(x)).ToArray();
+            this._maxTotalFoodAmount = biome.AvailableFoods.Sum(x => x.MaxAmount) + biome.FoodScarcity;
         }
 
         internal FoodData FindFood()
         {
-            var totalFoodAmountIndex = random.Next(maxTotalFoodAmount);
+            var totalFoodAmountIndex = _random.Next(_maxTotalFoodAmount);
             int foodIndex = SelectFoodIndex(totalFoodAmountIndex);
-            if (foodIndex < food.Length)
-                return food[foodIndex];
+            if (foodIndex < _food.Length)
+                return _food[foodIndex];
             return new FoodData(NoFood.Instance);
         }
 
@@ -31,9 +31,9 @@ namespace NatureSim.Console
         {
             var currentTotalFoodAmount = 0;
             int currentFoodIndex;
-            for (currentFoodIndex = 0; currentFoodIndex < food.Length; currentFoodIndex++)
+            for (currentFoodIndex = 0; currentFoodIndex < _food.Length; currentFoodIndex++)
             {
-                currentTotalFoodAmount += food[currentFoodIndex].Amount;
+                currentTotalFoodAmount += _food[currentFoodIndex].Amount;
                 if (totalFoodAmountIndex < currentTotalFoodAmount)
                     break;
             }
@@ -43,7 +43,7 @@ namespace NatureSim.Console
 
         public void OnUpdate(int ticks)
         {
-            foreach(var food in this.food)
+            foreach(var food in this._food)
             {
                 if (ticks % food.Info.RegenRate == 0)
                 {

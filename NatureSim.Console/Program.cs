@@ -29,7 +29,7 @@ namespace NatureSim.Console
                 aliveAnimals = new List<Animal>();
                 foreach (var animal in animals)
                 {
-                    var animalCurrentTile = map[animal.coordsX, animal.coordsY];
+                    var animalCurrentTile = map[animal._coordsX, animal._coordsY];
                     animal.Eat(animalCurrentTile.FindFood());
                     animal.Move();
                     if (animal.IsAlive)

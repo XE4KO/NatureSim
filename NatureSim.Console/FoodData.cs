@@ -17,7 +17,7 @@
 
         public FoodInfo Info { get; }
         public int Amount { get; private set; }
-        public int Nutrients => Amount * Info.nutrients;
+        public int Nutrients => Amount * Info.Nutrients;
 
         internal FoodData Consume(int consumeAmount)
         {

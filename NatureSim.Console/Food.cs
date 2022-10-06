@@ -17,19 +17,19 @@ namespace NatureSim.Console
 
     abstract class FoodInfo
     {
-        public int nutrients { get; }
-        public Foods foodName { get; }
+        public int Nutrients { get; }
+        public Foods FoodName { get; }
         public int MaxAmount { get; }
         public int RegenRate { get; }
         public FoodInfo(int nutrients, Foods foodName, int maxAmount, int regenRate)
         {
-            this.nutrients = nutrients;
-            this.foodName = foodName;
+            this.Nutrients = nutrients;
+            this.FoodName = foodName;
             MaxAmount = maxAmount;
             RegenRate = regenRate;
         }
         internal virtual string GetDoesNotEatMessage()
-            => $"does not eat {foodName}";
+            => $"does not eat {FoodName}";
     }
     class Berry : FoodInfo
     {

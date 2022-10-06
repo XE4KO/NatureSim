@@ -6,63 +6,63 @@ namespace NatureSim.Console
 {
     class Animal
     {
-        private readonly string animalType;
-        private int health;
-        private readonly HashSet<Foods> diet;
-        private int starve;
-        public int coordsX;
-        public int coordsY;
-        private Random random = Configuration.CreateRandom();
+        private readonly string _animalType;
+        private int _health;
+        private readonly HashSet<Foods> _diet;
+        private int _starve;
+        public int _coordsX;
+        public int _coordsY;
+        private Random _random = Configuration.CreateRandom();
         Map map = new Map();
         public Animal(string animalType, int health, int starve, IEnumerable<Foods> diet)
         {
-            this.animalType = animalType;
-            this.health = health;
-            this.starve = starve;
-            this.diet = new HashSet<Foods>(diet);
-            this.coordsX = random.Next(map.Width);
-            this.coordsY = random.Next(map.Height);
+            this._animalType = animalType;
+            this._health = health;
+            this._starve = starve;
+            this._diet = new HashSet<Foods>(diet);
+            this._coordsX = _random.Next(map.Width);
+            this._coordsY = _random.Next(map.Height);
         }
 
-        public bool IsAlive => health > 0;
+        public bool IsAlive => _health > 0;
         public void Eat(FoodData food)
         {
             if (IsAlive)
             {
-                if (diet.Contains(food.Info.foodName))
+                if (_diet.Contains(food.Info.FoodName))
                 {
                     var consumedFood = food.Consume(1);
-                    health += consumedFood.Nutrients;
+                    _health += consumedFood.Nutrients;
                     System.Console.BackgroundColor = ConsoleColor.DarkGreen;
-                    System.Console.Write($"{animalType} eats {food.Info.foodName} and has {health} health.");
+                    System.Console.Write($"{_animalType} eats {food.Info.FoodName} and has {_health} health.");
                     System.Console.BackgroundColor = ConsoleColor.Black;
                     System.Console.WriteLine(' ');
                 }
                 else
                 {
-                    health -= starve;
+                    _health -= _starve;
                     string doesNotEatMessage = food.Info.GetDoesNotEatMessage();
                     if (!IsAlive)
                     {
                         System.Console.BackgroundColor = ConsoleColor.DarkRed;
-                        System.Console.Write($"{animalType} {doesNotEatMessage} and died");
+                        System.Console.Write($"{_animalType} {doesNotEatMessage} and died");
                         System.Console.BackgroundColor = ConsoleColor.Black;
                         System.Console.WriteLine(' ');
                         if (Configuration.DetailedInfo)
                             System.Console.ReadKey();
                     }
                     else if (Configuration.DetailedInfo)
-                        System.Console.WriteLine($"{animalType} {doesNotEatMessage} and is left with {health} health.");
+                        System.Console.WriteLine($"{_animalType} {doesNotEatMessage} and is left with {_health} health.");
                 }
             }
         }
 
         public void Move()
 		{
-			coordsX += random.Next(3) - 1;
-			coordsY += random.Next(3) - 1;
-            coordsX = map.LimitX(coordsX);
-            coordsY = map.LimitY(coordsY);
+			_coordsX += _random.Next(3) - 1;
+			_coordsY += _random.Next(3) - 1;
+            _coordsX = map.LimitX(_coordsX);
+            _coordsY = map.LimitY(_coordsY);
 			//System.Console.WriteLine($"{animalType} moved to [{coordsX}:{coordsY}].");
 		}
 
