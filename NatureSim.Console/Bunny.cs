@@ -7,7 +7,8 @@ namespace NatureSim.Console
 		public Bunny()
 			: base(
 				"Bunny", 
-				3, 
+				2,
+				3,
 				2, 
 				new []
 				{

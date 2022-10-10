@@ -7,7 +7,8 @@ namespace NatureSim.Console
 		public Lion()
 			: base(
 				"Lion",
-				13, 
+				5,
+				13,
 				3, 
 				new[]
 				{
