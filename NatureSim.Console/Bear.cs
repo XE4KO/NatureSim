@@ -9,6 +9,7 @@ namespace NatureSim.Console
 		public Bear()
 			: base(
 				"Bear",
+				5,
 				15,
 				2,
 				new[] {

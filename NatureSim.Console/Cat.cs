@@ -7,7 +7,8 @@ namespace NatureSim.Console
 		public Cat()
 			: base(
 				"Cat", 
-				5, 
+				3,
+				5,
 				2, 
 				new[] 
 				{ 

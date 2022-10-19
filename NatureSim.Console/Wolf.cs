@@ -7,7 +7,8 @@ namespace NatureSim.Console
 		public Wolf()
 			: base(
 				"Wolf", 
-				13, 
+				5,
+				13,
 				2, 
 				new[] 
 				{ 
