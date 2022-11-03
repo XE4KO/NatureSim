@@ -7,9 +7,12 @@ namespace NatureSim.Console
 		public Wolf()
 			: base(
 				"Wolf", 
+				75,
 				5,
 				13,
+				18,
 				2, 
+				3,
 				new[] 
 				{ 
 				Foods.meat, 

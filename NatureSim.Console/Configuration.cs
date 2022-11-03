@@ -4,7 +4,7 @@ namespace NatureSim.Console
 {
     static class Configuration
     {
-        public static bool DetailedInfo = false;
+        public static bool DetailedInfo = true;
         public static int Seed = 3;
         public static Random CreateRandom()
         {

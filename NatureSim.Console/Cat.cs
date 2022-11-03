@@ -6,10 +6,13 @@ namespace NatureSim.Console
 	{
 		public Cat()
 			: base(
-				"Cat", 
+				"Cat",
+				50,
 				3,
 				5,
+				10,
 				2, 
+				3,
 				new[] 
 				{ 
 				Foods.mouse, 

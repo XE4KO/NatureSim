@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace NatureSim.Console
 {
@@ -8,21 +9,27 @@ namespace NatureSim.Console
     {
         private readonly string _animalType;
         private int _hunger;
+        private int _maxHunger;
         private int _hungerLoss;
         private int _health;
-        private readonly HashSet<Foods> _diet;
+        private int _maxHealth;
         private int _starvingDamage;
+        private int _healthRegen;
+        private readonly HashSet<Foods> _diet;
         public int _coordsX;
         public int _coordsY;
         private Random _random = Configuration.CreateRandom();
         Map map = new Map();
-        public Animal(string animalType, int hungerLoss, int health, int starvingDamage, IEnumerable<Foods> diet)
+        public Animal(string animalType, int maxHunger, int hungerLoss, int health, int maxHealth, int starvingDamage, int healthRegen, IEnumerable<Foods> diet)
         {
             this._animalType = animalType;
-            this._hunger = 0;
+            this._hunger = maxHunger;
+            this._maxHunger = maxHunger;
             this._hungerLoss = hungerLoss;
             this._health = health;
+            this._maxHealth = maxHealth;
             this._starvingDamage = starvingDamage;
+            this._healthRegen = healthRegen;
             this._diet = new HashSet<Foods>(diet);
             this._coordsX = _random.Next(map.Width);
             this._coordsY = _random.Next(map.Height);
@@ -33,57 +40,105 @@ namespace NatureSim.Console
         {
             if (IsAlive)
             {
-                if (_diet.Contains(food.Info.FoodName))
+                SetHunger(_hunger - _hungerLoss);
+                var consumableFood = _diet.Contains(food.Info.FoodName);
+                Color? hungerColor = null;
+                string eatMessage;
+                if (consumableFood)
                 {
                     var consumedFood = food.Consume(1);
-                    _hunger += consumedFood.Nutrients;
-                    LimitHunger();
-                    System.Console.BackgroundColor = ConsoleColor.DarkGreen;
-                    System.Console.Write($"{_animalType} eats {food.Info.FoodName} and has {_health} health.");
-                    System.Console.BackgroundColor = ConsoleColor.Black;
-                    System.Console.WriteLine(' ');
+                    SetHunger(_hunger + consumedFood.Nutrients);
+                    hungerColor = Color.DarkGreen;
+                    eatMessage = $"eats {food.Info.FoodName}";
                 }
                 else
                 {
-                    _hunger -= _hungerLoss;
-                    LimitHunger();
-                    //_health -= _starvingDamage;
-                    string doesNotEatMessage = food.Info.GetDoesNotEatMessage();
+                    hungerColor = Color.DarkRed;
+                    eatMessage = food.Info.GetDoesNotEatMessage();
+                }
+                Color? hungerMessageColor = null;
+                string hungerMessage = "";
+                if (_hunger <= _maxHunger / 3)
+                {
+                    SetHealth(_health - _starvingDamage);
+
                     if (!IsAlive)
                     {
-                        System.Console.BackgroundColor = ConsoleColor.DarkRed;
-                        System.Console.Write($"{_animalType} {doesNotEatMessage} and died");
-                        System.Console.BackgroundColor = ConsoleColor.Black;
-                        System.Console.WriteLine(' ');
-                        if (Configuration.DetailedInfo)
-                            System.Console.ReadKey();
+                        hungerMessageColor = Color.DarkRed;
+                        hungerMessage = $"Now it has starved to death.";
+                        //if (Configuration.DetailedInfo)
+                        //    System.Console.ReadKey();
                     }
-                    else if (Configuration.DetailedInfo)
-                        System.Console.WriteLine($"{_animalType} {doesNotEatMessage} and is left with {_hunger} hunger.");
+                    else
+                    {
+                        hungerMessageColor = Color.YellowGreen;
+                        hungerMessage = $"Now it's starving";
+                    }
                 }
+                else if (_hunger >= (_maxHunger / 3) * 2)
+                {
+                    SetHealth(_health + _healthRegen);
+                    if(_health < _maxHealth)
+                        hungerMessageColor = Color.DarkGreen;
+                    hungerMessage = $"Now it's well fed";
+                }
+                //PrintResult($"{_animalType} eats {food.Info.FoodName} and has {_hunger} hunger." );
+                var hungerString = ConsoleEx.Format($"{_hunger,3}", hungerColor ?? Color.Black, Color.White);
+                var healthString = ConsoleEx.Format($"{_health,3}", hungerMessageColor ?? Color.Black, Color.White);
+                //PrintResult($"{_animalType,10}, HG({hungerString}), HP({_health,3}) {eatMessage}. Now {hungerMessage}\r\n", color);
+                System.Console.WriteLine($"{_animalType,10}, HG({hungerString}), HP({healthString}) {eatMessage}. {hungerMessage}");
             }
+        }
+
+        private void PrintResult(string value, ConsoleColor? color = null)
+        {
+            if (color.HasValue)
+                System.Console.BackgroundColor = color.Value;
+            System.Console.Write(value);
+            if (color.HasValue)
+                System.Console.BackgroundColor = ConsoleColor.Black;
+            System.Console.WriteLine(' ');
         }
 
         public void Move()
-		{
-			_coordsX += _random.Next(3) - 1;
-			_coordsY += _random.Next(3) - 1;
+        {
+            _coordsX += _random.Next(3) - 1;
+            _coordsY += _random.Next(3) - 1;
             _coordsX = map.LimitX(_coordsX);
             _coordsY = map.LimitY(_coordsY);
-			//System.Console.WriteLine($"{animalType} moved to [{coordsX}:{coordsY}].");
-		}
+            //System.Console.WriteLine($"{animalType} moved to [{coordsX}:{coordsY}].");
+        }
 
-        private void LimitHunger()
+        private void SetHunger(int hunger)
         {
-            if (_hunger > 100)
+            if (hunger > _maxHunger)
             {
-                _hunger = 100;
+                _hunger = _maxHunger;
             }
-            if (_hunger < 0)
+            else if (hunger < 0)
             {
                 _hunger = 0;
             }
+            else
+            {
+                _hunger = hunger;
+            }
         }
 
-	}
+        private void SetHealth(int health)
+        {
+            if (health > _maxHealth)
+            {
+                _health = _maxHealth;
+            }
+            else if (health < 0)
+            {
+                _health = 0;
+            }
+            else
+            {
+                _health = health;
+            }
+        }
+    }
 }

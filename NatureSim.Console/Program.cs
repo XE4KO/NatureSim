@@ -26,6 +26,8 @@ namespace NatureSim.Console
             List<Animal> aliveAnimals;
             do
             {
+                System.Console.BackgroundColor = ConsoleColor.Black;
+                System.Console.Clear();
                 aliveAnimals = new List<Animal>();
                 foreach (var animal in animals)
                 {
@@ -39,6 +41,9 @@ namespace NatureSim.Console
                 }
                 map.Update();
                 animals = aliveAnimals;
+                if (Configuration.DetailedInfo)
+                    System.Console.ReadKey();
+
             } while (aliveAnimals.Count > 0);
             System.Console.WriteLine($"Last animal survived {map.Ticks} ticks.");
         }

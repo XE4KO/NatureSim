@@ -9,9 +9,12 @@ namespace NatureSim.Console
 		public Bear()
 			: base(
 				"Bear",
+				90,
 				5,
 				15,
+				20,
 				2,
+				3,
 				new[] {
 					Foods.meat,
 					Foods.fish,

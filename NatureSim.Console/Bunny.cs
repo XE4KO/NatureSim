@@ -7,9 +7,12 @@ namespace NatureSim.Console
 		public Bunny()
 			: base(
 				"Bunny", 
+				35,
 				2,
 				3,
-				2, 
+				8,
+				2,
+				3,
 				new []
 				{
 				Foods.berry,
