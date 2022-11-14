@@ -2,25 +2,25 @@
 
 namespace NatureSim.Console
 {
-	class Bunny : Animal
-	{
-		public Bunny()
-			: base(
-				"Bunny", 
-				35,
-				2,
-				3,
-				8,
-				2,
-				3,
-				new []
-				{
-				Foods.berry,
-				Foods.carrot,
-				Foods.grass,
-				Foods.acorn,
-				})
-		{
-		}
-	}
+    class Bunny : Animal
+    {
+        public Bunny(Map map)
+            : base(
+                 map,
+                "Bunny",
+                2,
+                3,
+                8,
+                2,
+                3,
+                new[]
+                {
+                Foods.berry,
+                Foods.carrot,
+                Foods.grass,
+                Foods.acorn,
+                })
+        {
+        }
+    }
 }

@@ -5,11 +5,15 @@ using System.Drawing;
 
 namespace NatureSim.Console
 {
-    class Animal
+    abstract class Animal
     {
         private readonly string _animalType;
         private int _hunger;
-        private int _maxHunger;
+        private const int _maxHunger = 100;
+        private const int _highHunger = 60;
+        private const int _highHungerConsumeFood = 5;
+        private const int _lowHunger = 30;
+        private const int _lowHungerConsumeFood = 10;
         private int _hungerLoss;
         private int _health;
         private int _maxHealth;
@@ -18,54 +22,63 @@ namespace NatureSim.Console
         private readonly HashSet<Foods> _diet;
         public int _coordsX;
         public int _coordsY;
-        private Random _random = Configuration.CreateRandom();
-        Map map = new Map();
-        public Animal(string animalType, int maxHunger, int hungerLoss, int health, int maxHealth, int starvingDamage, int healthRegen, IEnumerable<Foods> diet)
+        private readonly Random _random = Configuration.Random;
+        private readonly Map _map;
+        private readonly LinearInterpolation _hungerConsumeFoodInterpolation;
+        public Animal(Map map, string animalType, int hungerLoss, int health, int maxHealth, int starvingDamage, int healthRegen, IEnumerable<Foods> diet)
         {
-            this._animalType = animalType;
-            this._hunger = maxHunger;
-            this._maxHunger = maxHunger;
-            this._hungerLoss = hungerLoss;
-            this._health = health;
-            this._maxHealth = maxHealth;
-            this._starvingDamage = starvingDamage;
-            this._healthRegen = healthRegen;
-            this._diet = new HashSet<Foods>(diet);
-            this._coordsX = _random.Next(map.Width);
-            this._coordsY = _random.Next(map.Height);
+            _map = map;
+            _animalType = animalType;
+            _hunger = _maxHunger;
+            _hungerLoss = hungerLoss;
+            _health = health;
+            _maxHealth = maxHealth;
+            _starvingDamage = starvingDamage;
+            _healthRegen = healthRegen;
+            _diet = new HashSet<Foods>(diet);
+            _coordsX = _random.Next(_map.Width);
+            _coordsY = _random.Next(_map.Height);
+            _hungerConsumeFoodInterpolation = new LinearInterpolation(_lowHunger, _lowHungerConsumeFood, _highHunger, _highHungerConsumeFood);
         }
 
         public bool IsAlive => _health > 0;
+
+        private int GetFoodConsumeQuantity(int hunger)
+            => Convert.ToInt32(_hungerConsumeFoodInterpolation.CalculateY(hunger));//addd linear interpolation equation
         public void Eat(FoodData food)
         {
             if (IsAlive)
             {
                 SetHunger(_hunger - _hungerLoss);
                 var consumableFood = _diet.Contains(food.Info.FoodName);
-                Color? hungerColor = null;
+                Color? hungerColor = Color.DarkRed;
                 string eatMessage;
                 if (consumableFood)
                 {
-                    var consumedFood = food.Consume(1);
-                    SetHunger(_hunger + consumedFood.Nutrients);
-                    hungerColor = Color.DarkGreen;
-                    eatMessage = $"eats {food.Info.FoodName}";
+                    int consumedAmmount = GetFoodConsumeQuantity(_hunger);
+                    if (consumedAmmount > 0)
+                    {
+                        var consumedFood = food.Consume(consumedAmmount);
+                        SetHunger(_hunger + consumedFood.Nutrients);
+                        hungerColor = Color.DarkGreen;
+                        eatMessage = $"eats {consumedAmmount} {food.Info.FoodName}";
+                    }
+                    else
+                        eatMessage = $"found {food.Info.FoodName}, but lost interest";
                 }
                 else
-                {
-                    hungerColor = Color.DarkRed;
                     eatMessage = food.Info.GetDoesNotEatMessage();
-                }
+
                 Color? hungerMessageColor = null;
                 string hungerMessage = "";
-                if (_hunger <= _maxHunger / 3)
+                if (_hunger <= _lowHunger)
                 {
                     SetHealth(_health - _starvingDamage);
 
                     if (!IsAlive)
                     {
                         hungerMessageColor = Color.DarkRed;
-                        hungerMessage = $"Now it has starved to death.";
+                        hungerMessage = $"It has starved to death.";
                         //if (Configuration.DetailedInfo)
                         //    System.Console.ReadKey();
                     }
@@ -75,16 +88,16 @@ namespace NatureSim.Console
                         hungerMessage = $"Now it's starving";
                     }
                 }
-                else if (_hunger >= (_maxHunger / 3) * 2)
+                else if (_hunger >= _highHunger)
                 {
                     SetHealth(_health + _healthRegen);
-                    if(_health < _maxHealth)
+                    if (_health < _maxHealth)
                         hungerMessageColor = Color.DarkGreen;
                     hungerMessage = $"Now it's well fed";
                 }
                 //PrintResult($"{_animalType} eats {food.Info.FoodName} and has {_hunger} hunger." );
-                var hungerString = ConsoleEx.Format($"{_hunger,3}", hungerColor ?? Color.Black, Color.White);
-                var healthString = ConsoleEx.Format($"{_health,3}", hungerMessageColor ?? Color.Black, Color.White);
+                var hungerString = ConsoleEx.Format($"{_hunger,3}/{_maxHunger,3}", hungerColor ?? Color.Black, Color.White);
+                var healthString = ConsoleEx.Format($"{_health,3}/{_maxHealth,3}", hungerMessageColor ?? Color.Black, Color.White);
                 //PrintResult($"{_animalType,10}, HG({hungerString}), HP({_health,3}) {eatMessage}. Now {hungerMessage}\r\n", color);
                 System.Console.WriteLine($"{_animalType,10}, HG({hungerString}), HP({healthString}) {eatMessage}. {hungerMessage}");
             }
@@ -102,10 +115,8 @@ namespace NatureSim.Console
 
         public void Move()
         {
-            _coordsX += _random.Next(3) - 1;
-            _coordsY += _random.Next(3) - 1;
-            _coordsX = map.LimitX(_coordsX);
-            _coordsY = map.LimitY(_coordsY);
+            _coordsX = _map.LimitX(_coordsX + _random.Next(3) - 1);
+            _coordsY = _map.LimitY(_coordsY + _random.Next(3) - 1);
             //System.Console.WriteLine($"{animalType} moved to [{coordsX}:{coordsY}].");
         }
 

@@ -23,8 +23,8 @@ namespace NatureSim.Console
         public int RegenRate { get; }
         public FoodInfo(int nutrients, Foods foodName, int maxAmount, int regenRate)
         {
-            this.Nutrients = nutrients;
-            this.FoodName = foodName;
+            Nutrients = nutrients;
+            FoodName = foodName;
             MaxAmount = maxAmount;
             RegenRate = regenRate;
         }

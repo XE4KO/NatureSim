@@ -4,10 +4,10 @@ namespace NatureSim.Console
 {
 	class Lion : Animal
 	{
-		public Lion()
+		public Lion(Map map)
 			: base(
+				 map,
 				"Lion",
-				75,
 				5,
 				13,
 				18,

@@ -4,12 +4,12 @@ namespace NatureSim.Console
 {
 	class Cat : Animal
 	{
-		public Cat()
+		public Cat(Map map)
 			: base(
+				 map,
 				"Cat",
-				50,
-				3,
-				5,
+				hungerLoss: 3,
+				health: 5,
 				10,
 				2, 
 				3,

@@ -8,19 +8,18 @@ namespace NatureSim.Console
         //!!!!!ask about how to make foods give different health using records!!!!!
         static void Main(string[] args)
         {
-            Map map = new Map();
-            map.GenerateMap(5,10);
+            Map map = new Map(5, 10);
             List<Animal> animals = new List<Animal>() {
-                new Bunny(),
-                new Wolf(),
-                new Bear(),
-                new Cat(),
-                new Lion(),
-                new Bunny(),
-                new Wolf(),
-                new Bear(),
-                new Cat(),
-                new Lion()
+                new Bunny(map),
+                new Wolf(map),
+                new Bear(map),
+                new Cat(map),
+                new Lion(map),
+                new Bunny(map),
+                new Wolf(map),
+                new Bear(map),
+                new Cat(map),
+                new Lion(map)
             };
 
             List<Animal> aliveAnimals;
@@ -31,8 +30,7 @@ namespace NatureSim.Console
                 aliveAnimals = new List<Animal>();
                 foreach (var animal in animals)
                 {
-                    var animalCurrentTile = map[animal._coordsX, animal._coordsY];
-                    animal.Eat(animalCurrentTile.FindFood());
+                    animal.Eat(map.FindFood(animal._coordsX, animal._coordsY));
                     animal.Move();
                     if (animal.IsAlive)
                     {
@@ -41,11 +39,16 @@ namespace NatureSim.Console
                 }
                 map.Update();
                 animals = aliveAnimals;
-                if (Configuration.DetailedInfo)
-                    System.Console.ReadKey();
-
-            } while (aliveAnimals.Count > 0);
+                
+            } while (aliveAnimals.Count > 0 && !CanExit());
             System.Console.WriteLine($"Last animal survived {map.Ticks} ticks.");
+        }
+
+        private static bool CanExit()
+        {
+            if (Configuration.DetailedInfo)
+                return System.Console.ReadKey().Key == ConsoleKey.Escape;
+            return false;
         }
     }
 }

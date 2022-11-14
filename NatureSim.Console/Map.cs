@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace NatureSim.Console
 {
-	class Map
+    class Map
     {
         public int Width => width;
         public int Height => height;
         int time = 0;
         public int Ticks => time;
-        private int width;
-        private int height;
+        private readonly int width;
+        private readonly int height;
 
-        private Random random = Configuration.CreateRandom();
+        private Random _random = Configuration.Random;
         private static readonly IReadOnlyList<Biome> Biomes = new Biome[] {
                 new Forest(),
                 new Swamp(),
@@ -22,21 +23,32 @@ namespace NatureSim.Console
                 new River()
         };
 
-        public Tile this[int x,int y]  => tiles[x,y];
-
-        private Tile[,] tiles;
-        public void GenerateMap(int width, int height) 
+        public Map(int width, int height)
         {
             this.width = width;
             this.height = height;
+            GenerateMap();
+        }
+        public Tile this[int x, int y] => tiles[x, y];
+
+        private Tile[,] tiles;
+        private void GenerateMap()
+        {
             tiles = new Tile[width, height];
             for (int currentWidth = 0; currentWidth < width; currentWidth++)
             {
                 for (int currentHeight = 0; currentHeight < height; currentHeight++)
                 {
-                    tiles[currentWidth, currentHeight] = new Tile(Biomes[random.Next(Biomes.Count)]);
+                    tiles[currentWidth, currentHeight] = new Tile(Biomes[_random.Next(Biomes.Count)]);
                 }
             }
+        }
+
+        internal FoodData FindFood(int coordsX, int coordsY)
+        {
+            var animalCurrentTile = tiles[coordsX, coordsY];
+            Debug.Write($"Find food at {animalCurrentTile.Biome.GetType().Name} [{coordsX}:{coordsY}]: ");
+            return animalCurrentTile.FindFood();
         }
 
         public int LimitY(int coordsY) => Limit(coordsY, Height);
@@ -44,10 +56,10 @@ namespace NatureSim.Console
 
         private static int Limit(int coord, int max)
         {
-            if (coord > max)
+            if (coord >= max)
                 return 0;
             if (coord < 0)
-                return max;
+                return max - 1;
             return coord;
 
         }

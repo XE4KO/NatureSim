@@ -1,25 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace NatureSim.Console
 {
     class Tile
     {
-        static readonly Random _random = Configuration.CreateRandom();
-        private readonly Biome _biome;
+        static readonly Random _random = Configuration.Random;
         private readonly FoodData[] _food;
         private readonly int _maxTotalFoodAmount;
+
+        public Biome Biome { get; }
+
         public Tile(Biome biome)
         {
-            this._biome = biome;
-            var foodCount = biome.AvailableFoods.Length;
-            this._food = biome.AvailableFoods.Select(x => new FoodData(x)).ToArray();
-            this._maxTotalFoodAmount = biome.AvailableFoods.Sum(x => x.MaxAmount) + biome.FoodScarcity;
+            _food = biome.AvailableFoods.Select(x => new FoodData(x)).ToArray();
+            _maxTotalFoodAmount = biome.AvailableFoods.Sum(x => x.MaxAmount) + biome.FoodScarcity;
+            Biome = biome;
         }
 
         internal FoodData FindFood()
         {
+            Debug.WriteLine(string.Join(", ", _food.Select(x=> $"{x.Info.FoodName} {x.Amount}/{x.Info.MaxAmount}")));
+
             var totalFoodAmountIndex = _random.Next(_maxTotalFoodAmount);
             int foodIndex = SelectFoodIndex(totalFoodAmountIndex);
             if (foodIndex < _food.Length)
